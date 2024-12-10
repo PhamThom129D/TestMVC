@@ -31,10 +31,19 @@ public class EmployeeServlet extends HttpServlet {
                 case "update" :
                     showUpdateEmployee(req,resp);
                     break;
+                    case "delete" :
+                        deleteEmployeeAction(req,resp);
+                        break;
             default:
                 showAllEmployee(req, resp);
                 break;
         }
+    }
+
+    private void deleteEmployeeAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        employeeService.deleteEmployee(id);
+        showAllEmployee(req,resp);
     }
 
     private void showUpdateEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,7 +53,6 @@ public class EmployeeServlet extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("view/update.jsp");
         dispatcher.forward(req,resp);
     }
-
     private void showAddEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("view/add.jsp");
         dispatcher.forward(req,resp);
