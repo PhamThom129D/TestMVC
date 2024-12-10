@@ -14,5 +14,4 @@ void updateEmployee(int id,Employee employee);
     Employee getEmployeeById(int id);
     List<Employee> getEmployeeByName(String name);
 
-    List<Employee> getEmployeeByType(String type);
 }

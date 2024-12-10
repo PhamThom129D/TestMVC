@@ -56,4 +56,15 @@ public static final Map<Integer,Employee> employees = new HashMap<>();
         }
         return employeeList;
     }
+
+    @Override
+    public List<Employee> getEmployeeByType(String type) {
+        List<Employee> employeeList = new ArrayList<>();
+        for(Employee employee:employees.values()) {
+            if(employee.getRole().contains(type)) {
+                employeeList.add(employee);
+            }
+        }
+        return employeeList;
+    }
 }

@@ -21,26 +21,38 @@ public class EmployeeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         System.out.println(action);
-        if(action == null){
+        if (action == null) {
             action = "";
         }
-        switch (action){
-            case "add" :
-                showAddEmployee(req,resp);
+        switch (action) {
+            case "add":
+                showAddEmployee(req, resp);
                 break;
-                case "update" :
-                    showUpdateEmployee(req,resp);
-                    break;
-                    case "delete" :
-                        deleteEmployeeAction(req,resp);
-                        break;
-            case "view" :
-                showInfoEmployee(req,resp);
+            case "update":
+                showUpdateEmployee(req, resp);
+                break;
+            case "delete":
+                deleteEmployeeAction(req, resp);
+                break;
+            case "view":
+                showInfoEmployee(req, resp);
                 break;
             default:
                 showAllEmployee(req, resp);
                 break;
         }
+    }
+
+    private void showEmployeeFromType(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String type = req.getParameter("type");
+        List<Employee> employees = employeeService.getEmployeeByType(type);
+        if (employees.isEmpty()) {
+            req.setAttribute("message", "No employees found matching : " + type);
+        } else {
+            req.setAttribute("employees", employees);
+        }
+        RequestDispatcher dispatcher = req.getRequestDispatcher("view/list.jsp");
+        dispatcher.forward(req, resp);
     }
 
     private void searchEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -64,32 +76,35 @@ public class EmployeeServlet extends HttpServlet {
     private void showInfoEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         Employee employee = employeeService.getEmployeeById(id);
-        req.setAttribute("employee",employee);
+        req.setAttribute("employee", employee);
         RequestDispatcher dispatcher = req.getRequestDispatcher("view/info.jsp");
-        dispatcher.forward(req,resp);
+        dispatcher.forward(req, resp);
     }
 
     private void deleteEmployeeAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         employeeService.deleteEmployee(id);
-        showAllEmployee(req,resp);
+        showAllEmployee(req, resp);
     }
+
     private void showUpdateEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         Employee employee = employeeService.getEmployeeById(id);
-        req.setAttribute("employee",employee);
+        req.setAttribute("employee", employee);
         RequestDispatcher dispatcher = req.getRequestDispatcher("view/update.jsp");
-        dispatcher.forward(req,resp);
+        dispatcher.forward(req, resp);
     }
+
     private void showAddEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("view/add.jsp");
-        dispatcher.forward(req,resp);
+        dispatcher.forward(req, resp);
     }
+
     private void showAllEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Employee> employees = employeeService.showAllEmployees();
-        req.setAttribute("employees",employees);
+        req.setAttribute("employees", employees);
         RequestDispatcher dispatcher = req.getRequestDispatcher("view/list.jsp");
-        dispatcher.forward(req,resp);
+        dispatcher.forward(req, resp);
     }
 
 
@@ -97,18 +112,21 @@ public class EmployeeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         System.out.println(action);
-        if(action == null){
+        if (action == null) {
             action = "";
         }
-        switch (action){
-            case "add" :
-                addEmployeeAction(req,resp);
+        switch (action) {
+            case "add":
+                addEmployeeAction(req, resp);
                 break;
-                case "update" :
-                    updateEmployeeAction(req,resp);
-                    break;
-            case "search" :
-                searchEmployee(req,resp);
+            case "update":
+                updateEmployeeAction(req, resp);
+                break;
+            case "search":
+                searchEmployee(req, resp);
+                break;
+            case "show":
+                showEmployeeFromType(req, resp);
                 break;
             default:
                 break;
@@ -128,7 +146,7 @@ public class EmployeeServlet extends HttpServlet {
         employee.setRole(role);
         employee.setDepartment(department);
         employee.setSalary(salary);
-        employeeService.updateEmployee(id,employee);
+        employeeService.updateEmployee(id, employee);
         resp.sendRedirect("/employee");
     }
 
@@ -139,7 +157,7 @@ public class EmployeeServlet extends HttpServlet {
         String role = req.getParameter("role");
         String department = req.getParameter("department");
         double salary = Double.parseDouble(req.getParameter("salary"));
-        Employee employee = new Employee(id,name,age,role,department,salary);
+        Employee employee = new Employee(id, name, age, role, department, salary);
         employeeService.addEmployee(employee);
         resp.sendRedirect("/employee");
     }
