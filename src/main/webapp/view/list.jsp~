@@ -13,6 +13,7 @@
 </head>
 <body>
 <h1>Danh sach nhan vien</h1>
+<a href="view/list.jsp">Trang chu</a>
 <div>
     <form action="/employee?action=search" method="post">
         <input type="text" name="keyword">
