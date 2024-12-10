@@ -14,7 +14,7 @@
 <body>
 <h1>Danh sach nhan vien</h1>
 <div>
-    <form action="/employee?action=search" method="Get">
+    <form action="/employee?action=search" method="post">
         <input type="text" name="keyword">
         <input type="submit" value="Search">
     </form>

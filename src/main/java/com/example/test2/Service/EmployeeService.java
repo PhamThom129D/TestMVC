@@ -11,7 +11,7 @@ public class EmployeeService implements IEmployeeService {
 public static final Map<Integer,Employee> employees = new HashMap<>();
     static {
       employees.put(1,new Employee(1,"John1",23,"Nhan vien","CNTT",10000));
-      employees.put(2,new Employee(2,"John2",24,"Nhan vien","Marketing",12000));
+      employees.put(2,new Employee(2,"kohn2",24,"Nhan vien","Marketing",12000));
       employees.put(3,new Employee(3,"John3",25,"Nhan vien","CNTT",11000));
         employees.put(4,new Employee(4,"John4",26,"Quan ly","CNTT",15000));
         employees.put(5,new Employee(5,"John5",27,"Quan ly","Marketing",15000));
