@@ -43,6 +43,24 @@ public class EmployeeServlet extends HttpServlet {
         }
     }
 
+    private void searchEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String keyword = req.getParameter("keyword");
+        if (keyword == null || keyword.trim().isEmpty()) {
+            req.setAttribute("error", "Keyword cannot be empty!");
+            showAllEmployee(req, resp);
+            return;
+        }
+        List<Employee> employees = employeeService.getEmployeeByName(keyword);
+        if (employees.isEmpty()) {
+            req.setAttribute("message", "No employees found matching the keyword: " + keyword);
+        } else {
+            req.setAttribute("employees", employees);
+        }
+        RequestDispatcher dispatcher = req.getRequestDispatcher("view/list.jsp");
+        dispatcher.forward(req, resp);
+    }
+
+
     private void showInfoEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         Employee employee = employeeService.getEmployeeById(id);
@@ -89,6 +107,11 @@ public class EmployeeServlet extends HttpServlet {
                 case "update" :
                     updateEmployeeAction(req,resp);
                     break;
+            case "search" :
+                searchEmployee(req,resp);
+                break;
+            default:
+                break;
         }
     }
 

@@ -43,8 +43,19 @@ public class EmployeeServlet extends HttpServlet {
         }
     }
 
+    private void searchEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String keyword = req.getParameter("keyword");
+        List<Employee> employee = employeeService.getEmployeeByName(keyword);
+        req.setAttribute("employees",employee);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("view/list.jsp");
+        dispatcher.forward(req,resp);
+
+    }
+
     private void showInfoEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       req.setAttribute("id",req.getParameter("id"));
+        int id = Integer.parseInt(req.getParameter("id"));
+        Employee employee = employeeService.getEmployeeById(id);
+        req.setAttribute("employee",employee);
         RequestDispatcher dispatcher = req.getRequestDispatcher("view/info.jsp");
         dispatcher.forward(req,resp);
     }
@@ -87,6 +98,11 @@ public class EmployeeServlet extends HttpServlet {
                 case "update" :
                     updateEmployeeAction(req,resp);
                     break;
+            case "search" :
+                searchEmployee(req,resp);
+                break;
+            default:
+                break;
         }
     }
 
