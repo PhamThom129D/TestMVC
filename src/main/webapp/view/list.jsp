@@ -44,7 +44,7 @@
                 <td>${employee.department}</td>
                 <td>${employee.salary}</td>
                 <td>
-                    <a href="/employee?action=edit&id=${employee.id}">Sua thong tin</a><br>
+                    <a href="/employee?action=update&id=${employee.id}">Sua thong tin</a><br>
                     <a href="/employee?action=delete&id=${employee.id}">Xoa nhan vien</a><br>
                     <a href="/employee?action=view&id=${employee.id}">Xem thong tin</a>
                 </td>

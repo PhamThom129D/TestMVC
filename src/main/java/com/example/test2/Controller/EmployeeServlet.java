@@ -20,6 +20,7 @@ public class EmployeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
+        System.out.println(action);
         if(action == null){
             action = "";
         }
@@ -27,17 +28,27 @@ public class EmployeeServlet extends HttpServlet {
             case "add" :
                 showAddEmployee(req,resp);
                 break;
+                case "update" :
+                    showUpdateEmployee(req,resp);
+                    break;
             default:
                 showAllEmployee(req, resp);
                 break;
         }
     }
 
+    private void showUpdateEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        Employee employee = employeeService.getEmployeeById(id);
+        req.setAttribute("employee",employee);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("view/update.jsp");
+        dispatcher.forward(req,resp);
+    }
+
     private void showAddEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("view/add.jsp");
         dispatcher.forward(req,resp);
     }
-
     private void showAllEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Employee> employees = employeeService.showAllEmployees();
         req.setAttribute("employees",employees);
@@ -49,6 +60,7 @@ public class EmployeeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
+        System.out.println(action);
         if(action == null){
             action = "";
         }
@@ -56,7 +68,27 @@ public class EmployeeServlet extends HttpServlet {
             case "add" :
                 addEmployeeAction(req,resp);
                 break;
+                case "update" :
+                    updateEmployeeAction(req,resp);
+                    break;
         }
+    }
+
+    private void updateEmployeeAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        String name = req.getParameter("name");
+        int age = Integer.parseInt(req.getParameter("age"));
+        String role = req.getParameter("role");
+        String department = req.getParameter("department");
+        double salary = Double.parseDouble(req.getParameter("salary"));
+        Employee employee = employeeService.getEmployeeById(id);
+        employee.setName(name);
+        employee.setAge(age);
+        employee.setRole(role);
+        employee.setDepartment(department);
+        employee.setSalary(salary);
+        employeeService.updateEmployee(id,employee);
+        resp.sendRedirect("/employee");
     }
 
     private void addEmployeeAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
