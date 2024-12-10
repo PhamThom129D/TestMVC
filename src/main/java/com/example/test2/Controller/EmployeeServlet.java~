@@ -44,9 +44,7 @@ public class EmployeeServlet extends HttpServlet {
     }
 
     private void showInfoEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        Employee employee = employeeService.getEmployeeById(id);
-        req.setAttribute("employee",employee);
+       req.setAttribute("id",req.getParameter("id"));
         RequestDispatcher dispatcher = req.getRequestDispatcher("view/info.jsp");
         dispatcher.forward(req,resp);
     }
