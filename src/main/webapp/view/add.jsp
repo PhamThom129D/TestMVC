@@ -15,15 +15,15 @@
 <form action="/employee?action=add" method="post">
    <pre>
         <label>Ho va ten</label>
-    <input type="text" name="name" placeholder="Nhap ho va ten">
+    <input type="text" name="name" placeholder="Nhap ho va ten" required>
         <label>Tuoi</label>
-    <input type="text" name="age" placeholder="Nhap tuoi">
+    <input type="number" name="age" min="0" placeholder="Nhap tuoi" required>
         <label>Chuc vu</label>
-    <input type="text" name="role" placeholder="Nhap chuc vu">
+    <input type="text" name="role" placeholder="Nhap chuc vu" required>
         <label>Phong ban</label>
-    <input type="text" name="department" placeholder="Nhap phong ban">
+    <input type="text" name="department" placeholder="Nhap phong ban" required>
        <label>Luong</label>
-    <input type="text" name="salary" placeholder="Nhap luong">
+    <input type="number" min="0" step="any" name="salary" placeholder="Nhap luong" required>
         <input type="submit" value="Them">
    </pre>
 </form>
